@@ -1,0 +1,9 @@
+# ==============================================================================
+# TRIVY CVE IGNORE POLICY
+# Documented justifications for accepted risks / upstream pending releases.
+# ==============================================================================
+
+# CVE-2026-63374: Upstream AnyIO fixed version (4.14.2) not yet released to PyPI (4.12.1 is latest).
+# Threat Model Assessment: This advisory impacts outgoing TLS requests with Internationalized Domain
+# Names (IDN). The payment-status service is an inbound REST API and does not perform outbound IDN TLS handshakes.
+CVE-2026-63374

@@ -1,0 +1,83 @@
+# Base default values for payment-status Helm chart
+
+replicaCount: 1
+
+image:
+  repository: secure-payment-status
+  pullPolicy: IfNotPresent
+  tag: "v1.0.0"
+
+serviceAccount:
+  create: true
+  automountServiceAccountToken: false
+  name: ""
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "8000"
+  prometheus.io/path: "/metrics"
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 8000
+  targetPort: 8000
+
+env:
+  APP_ENV: "production"
+  LOG_LEVEL: "INFO"
+  PORT: "8000"
+  DB_PATH: "/data/payments.db"
+  DEBUG: "false"
+
+# Secret values (in production injected through Helm secrets or external vault, never checked into VCS)
+secrets:
+  apiSecretKey: "injected-at-deployment-time"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 3
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 2
+
+# Persistence volume for sqlite DB when readOnlyRootFilesystem is enabled
+persistence:
+  enabled: true
+  mountPath: /data

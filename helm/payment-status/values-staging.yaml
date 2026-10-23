@@ -1,0 +1,16 @@
+# Environment-specific configuration: STAGING
+environment: staging
+replicaCount: 2
+
+env:
+  APP_ENV: "staging"
+  LOG_LEVEL: "INFO"
+  DEBUG: "false"
+
+resources:
+  requests:
+    cpu: 150m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 384Mi

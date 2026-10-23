@@ -1,0 +1,47 @@
+# ==============================================================================
+# GITLEAKS CONFIGURATION FOR SECURE PAYMENT STATUS SERVICE
+# ==============================================================================
+title = "PuneFinTech Secret Scanner Rules"
+
+[extend]
+# Inherit standard default rules when extended
+
+[[rules]]
+id = "fintech-api-key"
+description = "Detected potential hardcoded FinTech API Key or Secret Token"
+regex = '''(?i)(payment[_-]?secret|fintech[_-]?key|stripe[_-]?secret|razorpay[_-]?key)[ \t]*[=:][ \t]*['"][a-zA-Z0-9_\-]{16,}['"]'''
+entropy = 3.5
+secretGroup = 1
+keywords = [
+    "payment_secret",
+    "fintech_key",
+    "stripe_secret",
+    "razorpay_key"
+]
+
+[[rules]]
+id = "generic-api-key"
+description = "Detected generic secret or private token"
+regex = '''(?i)(api[_-]?key|access[_-]?token|auth[_-]?token|secret[_-]?key)[ \t]*[=:][ \t]*['"][a-zA-Z0-9_\-]{20,}['"]'''
+entropy = 3.8
+secretGroup = 1
+keywords = [
+    "api_key",
+    "access_token",
+    "auth_token",
+    "secret_key"
+]
+
+[allowlist]
+description = "Allowed placeholder values and test fixtures"
+regexes = [
+    '''(?i)example''',
+    '''(?i)dummy''',
+    '''(?i)test''',
+    '''(?i)placeholder''',
+    '''pay_[a-f0-9]{16}'''
+]
+paths = [
+    '''tests/.*''',
+    '''\.venv/.*'''
+]

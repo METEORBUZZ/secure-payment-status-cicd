@@ -1,0 +1,13 @@
+# ==============================================================================
+# UNPINNED DEPENDENCIES (Demonstration of Supply-Chain / Dependency Risk)
+#
+# Risks of floating/unpinned versions:
+# 1. Non-deterministic builds (a build today might pass, tomorrow might break).
+# 2. Transitive dependency drift introducing breaking API changes without warning.
+# 3. Supply chain vulnerability injection (malicious package releases pulled automatically).
+# ==============================================================================
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+prometheus-client

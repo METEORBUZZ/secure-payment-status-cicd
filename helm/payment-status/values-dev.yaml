@@ -1,0 +1,16 @@
+# Environment-specific configuration: DEV
+environment: dev
+replicaCount: 1
+
+env:
+  APP_ENV: "dev"
+  LOG_LEVEL: "DEBUG"
+  DEBUG: "true"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 150m
+    memory: 128Mi
